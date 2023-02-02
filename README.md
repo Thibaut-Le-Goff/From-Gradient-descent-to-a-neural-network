@@ -17,8 +17,28 @@ But I didn't mention the addition of the bias between the multiplication and the
 
 This is important because the formula of the value stored in a neuron before the activation function is:
 
-$$(\sum_{i=1}^{\textrm{\color{red}nb neurons N - 1}}\textrm{\color{green} Weight}_i * \textrm{\color{red} neuron N - 1}_i) + \textrm{\color{blue} Bias}$$
+$$(\sum_{i=1}^{\textrm{\color{red}nb neurons N - 1}}\textrm{\color{green} Weight}_i * \textrm{\color{red}neuron N - 1}_i) + \textrm{\color{blue}Bias}$$
 
+If the neural network is only one neuron connected to another one we get:
+
+$$(\sum_{i=1}^{1}\textrm{\color{green} Weight}_i * \textrm{\color{red}neuron N - 1}_i) + \textrm{\color{blue}Bias}$$
+
+$$ => \textrm{\color{green} Weight} * \textrm{\color{red}neuron N - 1} + \textrm{\color{blue}Bias}$$
+
+This is quite familiar to the formula of a line:
+$$\textrm{\color{green} Slope} * \textrm{\color{red}Input} + \textrm{\color{blue}Intercept}$$
+
+Or
+
+$$y = \textrm{\color{green} a} * \textrm{\color{red}x} + \textrm{\color{blue}b}$$
+
+Tha would means gradient descent as a neural network may look like:
+
+<p align="center">
+    <img src="images/gd_as_nn.png" width="500"/>
+</p>
+
+($\textrm{\color{red}Input}$ is the value the neurone have after the activation function)
 
 <ins>Propagation and gradient-descent</ins>\
 I need to know what to change to the gradient descent algorithm to implement it in the project.
