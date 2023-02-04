@@ -23,7 +23,7 @@ If the neural network is only one neuron connected to another one we get:
 
 $$(\sum_{i=1}^{1}\textrm{\color{green} Weight}_i * \textrm{\color{red}neuron N - 1}_i) + \textrm{\color{blue}Bias}$$
 
-$$ => \textrm{\color{green} Weight} * \textrm{\color{red}neuron N - 1} + \textrm{\color{blue}Bias}$$
+$$\implies \textrm{\color{green} Weight} * \textrm{\color{red}neuron N - 1} + \textrm{\color{blue}Bias}$$
 
 This is quite familiar to the formula of a line:
 $$\textrm{\color{green} Slope} * \textrm{\color{red}Input} + \textrm{\color{blue}Intercept}$$
@@ -38,14 +38,18 @@ Tha would means gradient descent as a neural network may look like:
     <img src="images/gd_as_nn.png" width="500"/>
 </p>
 
-($\textrm{\color{red}Input}$ is the value the neurone have after the activation function)
+( $\textrm{\color{red}Input}$ is the value the neurone have after the activation function)
 
 <ins>Propagation and gradient-descent</ins>\
 I need to know what to change to the gradient descent algorithm to implement it in the project.
 
 And these changes are:
-|Before the implementation|After the implementation|
+|Before the implementation|Change needed for the implementation|
 |-|-|
+|The starting values of the $\textrm{\color{green}Slope}$ and $\textrm{\color{blue}Intercept}$ are both $0$.|Since the $\textrm{\color{green}Slope}$ is the $\textrm{\color{green}Weight}$ and the $\textrm{\color{blue}Intercept}$ is the $\textrm{\color{blue}Bias}$, those values will be given in ```input``` by the function who initialised the $\textrm{\color{green}Weight}$ and the $\textrm{\color{blue}Bias}$ of the neural network.
+|During the gradient descent process the ```predicted_value``` is given by the formula $\textrm{\color{green}Slope} * \textrm{\color{red}sample} + \textrm{\color{blue}Intercept}$. The $\textrm{\color{green}Slope}$ and $\textrm{\color{blue}Intercept}$ change after all the $\textrm{\color{red}sample}$ have been tested. This process repeat itself until the good $\textrm{\color{green}Slope}$ and $\textrm{\color{blue}Intercept}$ are found.|Since the $\textrm{\color{green}Slope}$ is the $\textrm{\color{green}Weight}$, the $\textrm{\color{red}sample}$ is still the $\textrm{\color{red}sample}$ and the $\textrm{\color{blue}Intercept}$ is the $\textrm{\color{blue}Bias}$, the $\textrm{\color{green}Weight}$ and $\textrm{\color{blue}Bias}$ will not need any ```input``` because they will change over time but the $\textrm{\color{red}sample}$ will be given in ```input``` by the data set.|
+|$$\frac{\partial \color{blue}Square}{\partial \color{green} Slope} = \frac{\partial \color{blue}Square}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Slope}$$||
+|$$\frac{\partial \color{blue}Square}{\partial \color{green} Intercept} = \frac{\partial \color{blue}Square}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Intercept}$$||
 |||
 |||
 
