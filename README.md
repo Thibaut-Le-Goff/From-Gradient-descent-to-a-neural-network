@@ -48,8 +48,8 @@ And these changes are:
 |-|-|
 |The starting values of the $\textrm{\color{green}Slope}$ and $\textrm{\color{blue}Intercept}$ are both $0$.|Since the $\textrm{\color{green}Slope}$ is the $\textrm{\color{green}Weight}$ and the $\textrm{\color{blue}Intercept}$ is the $\textrm{\color{blue}Bias}$, those values will be given in ```input``` by the function who initialised the $\textrm{\color{green}Weight}$ and the $\textrm{\color{blue}Bias}$ of the neural network.
 |During the gradient descent process the ```predicted_value``` is given by the formula $\textrm{\color{green}Slope} * \textrm{\color{red}sample} + \textrm{\color{blue}Intercept}$. The $\textrm{\color{green}Slope}$ and $\textrm{\color{blue}Intercept}$ change after all the $\textrm{\color{red}sample}$ have been tested. This process repeat itself until the good $\textrm{\color{green}Slope}$ and $\textrm{\color{blue}Intercept}$ are found.|Since the $\textrm{\color{green}Slope}$ is the $\textrm{\color{green}Weight}$, the $\textrm{\color{red}sample}$ is still the $\textrm{\color{red}sample}$ and the $\textrm{\color{blue}Intercept}$ is the $\textrm{\color{blue}Bias}$, the $\textrm{\color{green}Weight}$ and $\textrm{\color{blue}Bias}$ will not need any ```input``` because they will change over time but the $\textrm{\color{red}sample}$ will be given in ```input``` by the data set.|
-|$$\frac{\partial \color{blue}Square}{\partial \color{green} Slope} = \frac{\partial \color{blue}Square}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Slope}$$||
-|$$\frac{\partial \color{blue}Square}{\partial \color{green} Intercept} = \frac{\partial \color{blue}Square}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Intercept}$$||
+|$$\frac{\partial \color{blue}Squares}{\partial \color{green} Slope} = \frac{\partial \color{blue}Squares}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Slope}$$|$$\frac{\partial \color{blue}Squares}{\partial \color{green} Slope} = \frac{\partial \color{blue}Squares}{\partial \textrm{\color{black}Activation fun}} * \frac{\partial \textrm{\color{black}Activation fun}}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Slope}$$|
+|$$\frac{\partial \color{blue}Squares}{\partial \color{green} Intercept} = \frac{\partial \color{blue}Squares}{\partial \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Intercept}$$|$$\frac{\partial \color{blue}Squares}{\partial \color{green} Intercept} = \frac{\partial \color{blue}Squares}{\partial \textrm{\color{black}Activation fun}} * \frac{\partial \textrm{\color{black}Activation fun}}{\partial \color{red} \textrm{\color{red}Prediction line}} * \frac{\partial \textrm{\color{red}Prediction line}}{\partial \color{green} Intercept}$$|
 |||
 |||
 
@@ -64,3 +64,15 @@ The problem is:
 If the neuron at layer $N$ tells to both neurons at layer $N - 1$ he expects $\sum$, each of them will want to give it $\sum$ and it will get $2 * \sum$ instead of $\sum$.
 
 Maybe this problem could be solved if the neuron at layer N asks $\sum / 2$ to both neurons at layer $N - 1$.
+
+This hypothesis is false(this is still another one):
+
+The $\color{blue}bias$ is calculated is the one at the layer $N$ not $N - 1$:
+
+<p align="center">
+    <img src="images/hypothesis_layers_N_N-1-correction.png" width="450"/>
+</p>
+
+The loop will propably come from the calculation of the expected value at layer $N - 1$, this one will be calculated by the division of the sum ($\sum$) by the number of neurons at layer $N - 1$ (because the sum came from them), the result could be devided by the trained weight.
+
+$$\textrm{Expected value from a neurone at }N - 1 = (\sum / \textrm{nb of neurons }N - 1) / \textrm{\color{red} trained weight}$$
