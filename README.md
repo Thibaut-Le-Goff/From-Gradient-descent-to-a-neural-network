@@ -118,3 +118,16 @@ $(35 * ((\color{green}3 * 5 \color{black}) / 35)) / \color{green}4 \color{black}
 <p align="center">
     <img src="images/loop4.png" width="450"/>
 </p>
+
+Calculated with the participation in terms of weights:
+For the first neuron:
+$(35 * (\color{red}1 \color{black} / 5)) / \color{red}1 \color{black} = 7$
+
+For the second neuron:
+$(35 * (\color{green}4 \color{black} / 5)) / \color{green}4 \color{black} = 7$
+
+<p align="center">
+    <img src="images/loop5.png" width="450"/>
+</p>
+
+The last one is the propably the best only with this examples. 
