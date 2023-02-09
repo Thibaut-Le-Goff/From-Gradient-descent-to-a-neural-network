@@ -73,6 +73,48 @@ The $\color{blue}bias$ is calculated is the one at the layer $N$ not $N - 1$:
     <img src="images/hypothesis_layers_N_N-1-correction.png" width="450"/>
 </p>
 
-The loop will propably come from the calculation of the expected value at layer $N - 1$, this one will be calculated by the division of the sum ($\sum$) by the number of neurons at layer $N - 1$ (because the sum came from them), the result could be devided by the trained weight.
+<ins>How the programme could turn into a loop throutgh the layers</ins>
 
-$$\textrm{Expected value from a neurone at }N - 1 = (\sum / \textrm{nb of neurons }N - 1) / \textrm{\color{red} trained weight}$$
+During the propagation process the neurons at layer $N - 1$ give their signals to the neuron at $N$:
+
+<p align="center">
+    <img src="images/loop1.png" width="450"/>
+</p>
+
+During the backpropagation process the weights and the bias change of values.
+
+The probleme is the fact that the weights change of values also change the sum which change the outputs of the neuron $N$:
+
+<p align="center">
+    <img src="images/loop2.png" width="500"/>
+</p>
+
+The solution is propably to change the values send by the neurons $N - 1$, to trace back what should be those values:
+For the first neuron:
+$(35 / 2) / \color{red}1 \color{black} = 17.5$
+(2 for the number of neurons who participated in the sum)
+
+For the second neuron:
+$(35 / 2) / \color{green}4 \color{black} = 4.375$
+
+<p align="center">
+    <img src="images/loop3.png" width="450"/>
+</p>
+
+Another way may be to divide the sum by how much the weight participated to it :
+(at the propagation)
+<p align="center">
+    <img src="images/loop1.png" width="450"/>
+</p>
+
+For the first neuron participated at $57\%$ in the sum:
+$(\color{red}5 * 4\color{black}) / 35 \approx 0.57$
+$(35 * ((\color{red}5 * 4\color{black}) / 35)) / \color{red}1 \color{black} = 20$
+
+For the second neuron participated at $43\%$ in the sum:
+$(\color{green}3 * 5 \color{black}) / 35 \approx 0.43$
+$(35 * ((\color{green}3 * 5 \color{black}) / 35)) / \color{green}4 \color{black} = 3.75$
+
+<p align="center">
+    <img src="images/loop4.png" width="450"/>
+</p>
