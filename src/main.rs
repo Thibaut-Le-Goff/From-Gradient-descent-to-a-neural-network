@@ -8,20 +8,26 @@ fn main() {
 
     ////////////////////////////// Data set ///////////////////////
     
-    //let  datas = runst::DataSet {
-    inputs : vec![vec![0.5], vec![2.3], vec![2.9]];
-    observed_values : vec![vec![1.4], vec![1.9], vec![3.2]];
-    //};
+    let inputs: Vec<Vec<f32>> = vec![vec![0.5], vec![2.3], vec![2.9]];
+    let observed_values: Vec<Vec<f32>> = vec![vec![1.4], vec![1.9], vec![3.2]];
+
+    /* 
+    let  datas = runst::DataSet {
+        inputs : vec![vec![0.5], vec![2.3], vec![2.9]],
+        observed_values : vec![vec![1.4], vec![1.9], vec![3.2]],
+    };
+    */
 
     ///////////// Network settings ///////////////////
 
     let net = runst::Network {
         network_struct : vec![1, 1],
-        distrib : String::from("he_uniform_dis"),
+        distrib : String::from("he_normal_dis"),
     
-        hidden_activ_fun : String::from("leaky_relu"),
+        hidden_activ_fun : String::from("none"),
         // useless in a 1-1 neural network because 
-        // there is no hidden layers
+        //there is no hidden layers
+
         out_activ_fun : String::from("none"),
     };
 
@@ -30,17 +36,14 @@ fn main() {
 
     let (mut weights, mut bias): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::net_init::net_init(&net);
 
-    println!("Les poids : {:?}\n\n", weights);
-    println!("Les biais : {:?}\n\n", bias);
-
-
     ////////////////////// PROPAGATION ////////////////////////////////////
 
-    let (network_outputs_sum_bias, network_outputs_neurons): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
+    let network_predictions: Vec<f32> = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
 
-    ////////////////////// PROPAGATION ////////////////////////////////////
+    println!("{:?}", network_predictions);
+    ////////////////////// BACK-PROPAGATION ////////////////////////////////////
 
-    let (mut trained_weights, mut trained_bias): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::back_prop::grad_descent(&net, &observed_values ,&weights_tensor, &bias_matrix);
+    //let (mut trained_weights, mut trained_bias): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::back_prop::back_prop(&net, &observed_values, &network_predictions ,&weights, &bias);
 
     ///////////////////// MONTRE LES DONNÉES À L'ENVERS ////////////////////
     /*let outputs_sum_bias: usize = network_outputs_sum_bias.len();

@@ -73,7 +73,7 @@ The $\color{blue}bias$ is calculated is the one at the layer $N$ not $N - 1$:
     <img src="images/hypothesis_layers_N_N-1-correction.png" width="450"/>
 </p>
 
-<ins>How the programme could turn into a loop throutgh the layers</ins>
+<ins>How the program could turn into a loop through the layers</ins>
 
 During the propagation process the neurons at layer $N - 1$ give their signals to the neuron at $N$:
 
@@ -81,21 +81,21 @@ During the propagation process the neurons at layer $N - 1$ give their signals t
     <img src="images/loop1.png" width="450"/>
 </p>
 
-During the backpropagation process the weights and the bias change of values.
+During the backpropagation process the weights and the bias change values.
 
-The probleme is the fact that the weights change of values also change the sum which change the outputs of the neuron $N$:
+The problem is the fact that the weights change of values also changes the sum which changes the outputs of the neuron $N$:
 
 <p align="center">
     <img src="images/loop2.png" width="500"/>
 </p>
 
-The solution is propably to change the values send by the neurons $N - 1$, to trace back what should be those values:
+The solution is probably to change the values sent by the neurons $N - 1$, to trace back what should be those values:
 For the first neuron:
-$(35 / 2) / \color{red}1 \color{black} = 17.5$
+$$(35 / 2) / \color{red}1 \color{black} = 17.5$$
 (2 for the number of neurons who participated in the sum)
 
 For the second neuron:
-$(35 / 2) / \color{green}4 \color{black} = 4.375$
+$$(35 / 2) / \color{green}4 \color{black} = 4.375$$
 
 <p align="center">
     <img src="images/loop3.png" width="450"/>
@@ -108,12 +108,12 @@ Another way may be to divide the sum by how much the weight participated to it :
 </p>
 
 For the first neuron participated at $57\%$ in the sum:
-$(\color{red}5 * 4\color{black}) / 35 \approx 0.57$
-$(35 * ((\color{red}5 * 4\color{black}) / 35)) / \color{red}1 \color{black} = 20$
+$$(\color{red}5 * 4\color{black}) / 35 \approx 0.57$$
+$$(35 * ((\color{red}5 * 4\color{black}) / 35)) / \color{red}1 \color{black} = 20$$
 
 For the second neuron participated at $43\%$ in the sum:
-$(\color{green}3 * 5 \color{black}) / 35 \approx 0.43$
-$(35 * ((\color{green}3 * 5 \color{black}) / 35)) / \color{green}4 \color{black} = 3.75$
+$$(\color{green}3 * 5 \color{black}) / 35 \approx 0.43$$
+$$(35 * ((\color{green}3 * 5 \color{black}) / 35)) / \color{green}4 \color{black} = 3.75$$
 
 <p align="center">
     <img src="images/loop4.png" width="450"/>
@@ -121,13 +121,13 @@ $(35 * ((\color{green}3 * 5 \color{black}) / 35)) / \color{green}4 \color{black}
 
 Calculated with the participation in terms of weights:
 For the first neuron:
-$(35 * (\color{red}1 \color{black} / 5)) / \color{red}1 \color{black} = 7$
+$$(35 * (\color{red}1 \color{black} / 5)) / \color{red}1 \color{black} = 7$$
 
 For the second neuron:
-$(35 * (\color{green}4 \color{black} / 5)) / \color{green}4 \color{black} = 7$
+$$(35 * (\color{green}4 \color{black} / 5)) / \color{green}4 \color{black} = 7$$
 
 <p align="center">
     <img src="images/loop5.png" width="450"/>
 </p>
 
-The last one is the propably the best only with this examples. 
+The last one is probably the best only with this example.
