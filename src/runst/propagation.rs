@@ -1,7 +1,8 @@
 ///////////////// for the propagation ///////////////////////////
 use crate::runst::Network;
 
-pub fn propagation(net: &Network, inputs: &Vec<Vec<f32>>, weights: &Vec<Vec<f32>>, bias: &Vec<Vec<f32>>) -> Vec<f32> {
+//pub fn propagation(net: &Network, inputs: &Vec<Vec<f32>>, weights: &Vec<Vec<f32>>, bias: &Vec<Vec<f32>>) -> Vec<f32> {
+pub fn propagation(net: &Network, inputs: &Vec<Vec<f32>>, weights: &Vec<Vec<f32>>, bias: &Vec<Vec<f32>>) -> Vec<Vec<f32>> {
     
     //////////////// Select the activation functions wanted ///////////
     type FunType = Box<dyn Fn(&Vec<f32>)->Vec<f32>>;
@@ -42,7 +43,8 @@ pub fn propagation(net: &Network, inputs: &Vec<Vec<f32>>, weights: &Vec<Vec<f32>
 
     /////////////// The propagation really start here //////////////
     
-    let mut network_predictions: Vec<f32> = Vec::new();
+    //let mut network_predictions: Vec<f32> = Vec::new();
+    let mut network_predictions: Vec<Vec<f32>> = Vec::new();
     
     for i in 0..inputs.len() {
         // for each pair of datas in the data set
@@ -76,9 +78,13 @@ pub fn propagation(net: &Network, inputs: &Vec<Vec<f32>>, weights: &Vec<Vec<f32>
                 println!("Après le passage dans la function d'activation :");
                 println!("{:?}\n", &neurons_outputs);
 
+                network_predictions.push(neurons_outputs);
+
+                /* 
                 for j in 0..neurons_outputs.len() {
                     network_predictions.push(neurons_outputs[j]);
                 }
+                */
 
             } else {
                 neuron_out_to_input = activ_fun_list[hidden_activ_fun_i].0(&neuron_sum_bias);
@@ -91,9 +97,13 @@ pub fn propagation(net: &Network, inputs: &Vec<Vec<f32>>, weights: &Vec<Vec<f32>
                 println!("Après le passage dans la function d'activation :");
                 println!("{:?}\n", &neuron_out_to_input);
 
+                network_predictions.push(neurons_outputs);
+
+                /* 
                 for j in 0..neurons_outputs.len() {
                     network_predictions.push(neurons_outputs[j]);
-                }            
+                }
+                */          
             }
         }
     }

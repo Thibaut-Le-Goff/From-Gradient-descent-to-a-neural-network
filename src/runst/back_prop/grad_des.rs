@@ -2,7 +2,7 @@
 use crate::runst::DataSet;
 use crate::runst::Network;
 
-pub fn grad_descent(inputs: &Vec<f32>, net: &Network, observed_values: &Vec<f32>, weights: &Vec<f32>, bias: &Vec<f32>) {
+pub fn grad_descent(net: &Network, observed_values: &Vec<f32>, network_predictions: &Vec<f32>, weights: &Vec<f32>, bias: &Vec<f32>) -> (weight: <f32>, bias: <f32>) {
 
     let try_number: usize = 1000;
 
@@ -25,7 +25,7 @@ pub fn grad_descent(inputs: &Vec<f32>, net: &Network, observed_values: &Vec<f32>
 
     let mut number_end: usize = 0;
 
-    for i in 0..= try_number - 1 {
+    for i in 0..try_number {
         for y in 0..= weight_bias.len() - 1 {
 
             if true_counter == weight_bias_trouve.len() {

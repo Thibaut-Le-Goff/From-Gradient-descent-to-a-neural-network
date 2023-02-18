@@ -21,7 +21,7 @@ fn main() {
     ///////////// Network settings ///////////////////
 
     let net = runst::Network {
-        network_struct : vec![1, 1],
+        network_struct : vec![1, 2, 2],
         distrib : String::from("he_normal_dis"),
     
         hidden_activ_fun : String::from("none"),
@@ -37,8 +37,9 @@ fn main() {
     let (mut weights, mut bias): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::net_init::net_init(&net);
 
     ////////////////////// PROPAGATION ////////////////////////////////////
-
-    let network_predictions: Vec<f32> = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
+    
+    let network_predictions: Vec<Vec<f32>> = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
+    //let network_predictions: Vec<f32> = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
 
     println!("{:?}", network_predictions);
     ////////////////////// BACK-PROPAGATION ////////////////////////////////////
