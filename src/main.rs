@@ -8,8 +8,10 @@ fn main() {
 
     ////////////////////////////// Data set ///////////////////////
     
-    let inputs: Vec<Vec<f32>> = vec![vec![0.5], vec![2.3], vec![2.9]];
-    let observed_values: Vec<Vec<f32>> = vec![vec![1.4], vec![1.9], vec![3.2]];
+    //let inputs: Vec<Vec<f32>> = vec![vec![0.5], vec![2.3], vec![2.9]];
+    let inputs: Vec<Vec<f32>> = vec![vec![0.5], vec![2.3], vec![2.9], vec![2.3], vec![2.9], vec![2.3], vec![2.9]];
+    //let observed_values: Vec<Vec<f32>> = vec![vec![1.4], vec![1.9], vec![3.2]];
+    let observed_values: Vec<Vec<f32>> = vec![vec![1.4], vec![1.9], vec![3.2], vec![1.9], vec![3.2], vec![1.9], vec![3.2]];
 
     /* 
     let  datas = runst::DataSet {
@@ -21,7 +23,8 @@ fn main() {
     ///////////// Network settings ///////////////////
 
     let net = runst::Network {
-        network_struct : vec![1, 2, 2],
+        network_struct : vec![1, 1, 2, 3, 4, 5, 6],
+        //network_struct : vec![1, 1],
         distrib : String::from("he_normal_dis"),
     
         hidden_activ_fun : String::from("none"),
@@ -40,58 +43,83 @@ fn main() {
     
     let network_predictions: Vec<Vec<f32>> = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
     //let network_predictions: Vec<f32> = runst::propagation::propagation(&net, &inputs ,&weights, &bias);
-
-    println!("{:?}", network_predictions);
+    
     ////////////////////// BACK-PROPAGATION ////////////////////////////////////
 
     //let (mut trained_weights, mut trained_bias): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::back_prop::back_prop(&net, &observed_values, &network_predictions ,&weights, &bias);
 
     ///////////////////// MONTRE LES DONNÉES À L'ENVERS ////////////////////
-    /*let outputs_sum_bias: usize = network_outputs_sum_bias.len();
-    let outputs_neurons: usize = network_outputs_neurons.len();
-    let couche_totale: usize = network_struct.len();
-    // pour un nombre qui est :
-    //   network_struct.len() = le nombre de couches dans le réseau
-    //   network_struct.len() *  1 = multiplier par le nb de données enregistrées 
-    //                      sum_bias et activ_fun pour un autre vecteur
-    //   network_struct.len() = moins la donnée n'existants pas
-    //                     à la couche input
+    println!("\nLes données en brut (à l'endroit) :");
+    for i in 0..network_predictions.len() {
+        println!("{:?}", network_predictions[i]);
+    }
 
-    println!("\n\nCe que le réseaux me donne à l'enver :");
-    for prop in 0..inputs.len() {
-        // pour chaque propagation
-        println!("\n\nÀ la propagation numéro {} :", (inputs.len() - 1) - prop);
 
-        println!("Dans les neurones de la couche 1 à 2 :");
-        println!("Après le passage dans la function d'activation :");
-        println!("{:?}\n", network_outputs_neurons[outputs_neurons - ((prop * couche_totale))]);
-        println!("Après l'ajout des biais :");
-        println!("{:?}\n", network_outputs_sum_bias[outputs_neurons - ((prop * couche_totale))]);
+    println!("\n\nL'itération à l'endroit :");
+    //let network_layers_backprop_iterator: 
+    for i in 0..inputs.len() {
+        // for every propagation
 
-        println!("Dans les neurones de la couche 0(input) à 1 :");
-        println!("Après le passage dans la function d'activation :");
-        println!("{:?}\n", network_outputs_neurons[outputs_neurons - ((prop * couche_totale) + 1)]);
-        println!("Après l'ajout des biais :");
-        println!("{:?}\n", network_outputs_sum_bias[outputs_sum_bias - ((prop * couche_totale) + 1)]);
+        println!("\nlors de la propagation numéro {}", i+1);
 
-        println!("La couches des entrées, la numéros 0 a pour valeurs :");
-        println!("{:?}\n", inputs[inputs.len() - prop + 1]);
+        // starter of the iteration of the outputs of the propagation i+1:
+        let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
+        println!("L'itération commence à : {}\n", starter_predictions_layers);
 
-         
-        for couche in 0..couche_totale {
-            // pour chaque couches, network_struct.len()
-            println!("Les neurons :");
-            for neuron in 0..network_outputs_neurons[outputs_neurons - ((prop * couche_totale) + couche + 1)].len() {
-                // pour chaque neuron de la couche j de l'itération i
-                println!("{:?}\n", network_outputs_neurons[outputs_neurons - ((prop * couche_totale) + couche + 1)][neuron]);
-            }
-            println!("Les sum_bias :");
-            for sum_bias in 0..network_outputs_sum_bias[outputs_sum_bias - ((prop * couche_totale) + couche + 2)].len() {
-                // pour chaque sum_bias de la couche j de l'itération i
-                println!("{:?}\n", network_outputs_sum_bias[outputs_sum_bias - ((prop * couche_totale) + couche + 2)][sum_bias]);
-            }
+        for y in 0..net.network_struct.len() - 1 {
+            // for every layer exepte the first because not usefull for the propagation
+
+            println!("la sortie des neurones de la couche numéro {} sont :", y + 2);
+            println!("{:?}", network_predictions[starter_predictions_layers + y]);
         }
-        println!("Les neurons :");
-        println!("{:?}\n", inputs[(inputs.len()) - (prop + 1)]);
-    }  */
+    }
+
+    
+
+    println!("\n\nL'itération à l'envers :");
+    for i in 0..inputs.len() {
+        // for every propagation
+        
+        println!("\nlors de la propagation numéro {}", i+1);
+
+        // starter of the iteration of the outputs of the propagation i+1:
+        let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
+        println!("L'itération commence normalement à : {}", starter_predictions_layers);
+
+        let backward_starter_predictions_layers: usize = (inputs.len() - i - 1) * (network_predictions.len() / inputs.len());
+        println!("\nMais comme les données sont à l'envers l'itération commence en faite à : {}", backward_starter_predictions_layers);
+
+        for y in 0..weights.len() {
+            // for every layers exepte the first because not usefull for the propagation
+            // or
+            // for every layers of weight
+
+            println!("la sortie des neurones de la couche numéro {} sont :", weights.len() - y + 1);
+            println!("{:?}", network_predictions[backward_starter_predictions_layers + (weights.len() - y - 1)]);
+        }
+    }
+
+
+    println!("\n\n\nMais les données doivent être gérées autrement :");
+    for i in 0..inputs.len() {
+        // for every propagation
+        
+        println!("\nlors de la propagation numéro {}", i+1);
+
+        // starter of the iteration of the outputs of the propagation i+1:
+        let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
+        println!("L'itération commence normalement à : {}", starter_predictions_layers);
+
+        let backward_starter_predictions_layers: usize = (inputs.len() - i - 1) * (network_predictions.len() / inputs.len());
+        println!("\nMais comme les données sont à l'envers l'itération commence en faite à : {}", backward_starter_predictions_layers);
+
+        for y in 0..weights.len() {
+            // for every layers exepte the first because not usefull for the propagation
+            // or
+            // for every layers of weight
+
+            println!("la sortie des neurones de la couche numéro {} sont :", weights.len() - y + 1);
+            println!("{:?}", network_predictions[backward_starter_predictions_layers + (weights.len() - y - 1)]);
+        }
+    }
 }
