@@ -80,7 +80,7 @@ fn main() {
     for i in 0..inputs.len() {
         // for every propagation
         
-        println!("\nlors de la propagation numéro {}", i+1);
+        println!("\nLors de la propagation numéro {}", i+1);
 
         // starter of the iteration of the outputs of the propagation i+1:
         let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
@@ -101,25 +101,30 @@ fn main() {
 
 
     println!("\n\n\nMais les données doivent être gérées autrement :");
-    for i in 0..inputs.len() {
-        // for every propagation
-        
-        println!("\nlors de la propagation numéro {}", i+1);
+    for i in 0..weights.len() {
+        println!("\nDans la couche de poids numéro {} :", i + 1);
 
-        // starter of the iteration of the outputs of the propagation i+1:
-        let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
-        println!("L'itération commence normalement à : {}", starter_predictions_layers);
+        let mut layers_counter: usize = i;
 
-        let backward_starter_predictions_layers: usize = (inputs.len() - i - 1) * (network_predictions.len() / inputs.len());
-        println!("\nMais comme les données sont à l'envers l'itération commence en faite à : {}", backward_starter_predictions_layers);
+        for y in 0..inputs.len() {
+            println!("Les poids de la propagation numéro {} sont :", y + 1);
+            println!("lors de la propagation numéro {:?}", network_predictions[layers_counter]);
 
-        for y in 0..weights.len() {
-            // for every layers exepte the first because not usefull for the propagation
-            // or
-            // for every layers of weight
+            layers_counter += weights.len();
+        }
+    }
 
-            println!("la sortie des neurones de la couche numéro {} sont :", weights.len() - y + 1);
-            println!("{:?}", network_predictions[backward_starter_predictions_layers + (weights.len() - y - 1)]);
+    println!("\n\nA l'envers :");
+    for i in 0..weights.len() {
+        println!("\nDans la couche de poids numéro {} :", weights.len() - i);
+
+        let mut layers_counter: usize = weights.len() - i -1;
+
+        for y in 0..inputs.len() {
+            println!("Les poids de la propagation numéro {} sont :", y + 1);
+            println!("lors de la propagation numéro {:?}", network_predictions[layers_counter]);
+
+            layers_counter += weights.len();
         }
     }
 }
