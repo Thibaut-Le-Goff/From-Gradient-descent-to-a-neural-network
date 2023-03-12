@@ -10,6 +10,7 @@ fn main() {
     
     //let inputs: Vec<Vec<f32>> = vec![vec![0.5], vec![2.3], vec![2.9]];
     let inputs: Vec<Vec<f32>> = vec![vec![0.5], vec![2.3], vec![2.9], vec![2.3], vec![2.9], vec![2.3], vec![2.9]];
+    //let inputs: Vec<Vec<f32>> = vec![vec![0.5, 0.5], vec![2.3, 0.5], vec![2.9, 0.5], vec![2.3, 0.5], vec![2.9, 0.5], vec![2.3, 0.5], vec![2.9, 0.5]];
     //let observed_values: Vec<Vec<f32>> = vec![vec![1.4], vec![1.9], vec![3.2]];
     let observed_values: Vec<Vec<f32>> = vec![vec![1.4], vec![1.9], vec![3.2], vec![1.9], vec![3.2], vec![1.9], vec![3.2]];
 
@@ -54,77 +55,75 @@ fn main() {
         println!("{:?}", network_predictions[i]);
     }
 
-
-    println!("\n\nL'itération à l'endroit :");
-    //let network_layers_backprop_iterator: 
-    for i in 0..inputs.len() {
-        // for every propagation
-
-        println!("\nlors de la propagation numéro {}", i+1);
-
-        // starter of the iteration of the outputs of the propagation i+1:
-        let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
-        println!("L'itération commence à : {}\n", starter_predictions_layers);
-
-        for y in 0..net.network_struct.len() - 1 {
-            // for every layer exepte the first because not usefull for the propagation
-
-            println!("la sortie des neurones de la couche numéro {} sont :", y + 2);
-            println!("{:?}", network_predictions[starter_predictions_layers + y]);
-        }
-    }
-
-    
-
-    println!("\n\nL'itération à l'envers :");
-    for i in 0..inputs.len() {
-        // for every propagation
-        
-        println!("\nLors de la propagation numéro {}", i+1);
-
-        // starter of the iteration of the outputs of the propagation i+1:
-        let starter_predictions_layers: usize = i * (network_predictions.len() / inputs.len());
-        println!("L'itération commence normalement à : {}", starter_predictions_layers);
-
-        let backward_starter_predictions_layers: usize = (inputs.len() - i - 1) * (network_predictions.len() / inputs.len());
-        println!("\nMais comme les données sont à l'envers l'itération commence en faite à : {}", backward_starter_predictions_layers);
-
-        for y in 0..weights.len() {
-            // for every layers exepte the first because not usefull for the propagation
-            // or
-            // for every layers of weight
-
-            println!("la sortie des neurones de la couche numéro {} sont :", weights.len() - y + 1);
-            println!("{:?}", network_predictions[backward_starter_predictions_layers + (weights.len() - y - 1)]);
-        }
-    }
-
-
-    println!("\n\n\nMais les données doivent être gérées autrement :");
-    for i in 0..weights.len() {
-        println!("\nDans la couche de poids numéro {} :", i + 1);
-
-        let mut layers_counter: usize = i;
-
-        for y in 0..inputs.len() {
-            println!("Les poids de la propagation numéro {} sont :", y + 1);
-            println!("lors de la propagation numéro {:?}", network_predictions[layers_counter]);
-
-            layers_counter += weights.len();
-        }
-    }
-
     println!("\n\nA l'envers :");
+
     for i in 0..weights.len() {
+        // for every layers of weigths
         println!("\nDans la couche de poids numéro {} :", weights.len() - i);
 
         let mut layers_counter: usize = weights.len() - i -1;
 
         for y in 0..inputs.len() {
-            println!("Les poids de la propagation numéro {} sont :", y + 1);
-            println!("lors de la propagation numéro {:?}", network_predictions[layers_counter]);
+            // for every propagations
+            println!("Les données de la propagation numéro {} sont :", y + 1);
+            //println!("lors de la propagation numéro {:?}", network_predictions[layers_counter]);
 
+            let vec_layer: &Vec<f32> = &network_predictions[layers_counter];
+
+            for j in 0..vec_layer.len() {
+                println!("{}", vec_layer[j]);
+            }
+            
             layers_counter += weights.len();
         }
     }
+
+    //println!("\n\nLes données en brut (à l'endroit) :");
+    //println!("{:?}", network_predictions);
+
+    println!("\n\nLes données en brut (à l'endroit en un seul vecteur) :");
+    let network_predictions_concat: &Vec<f32> = &network_predictions.concat();
+    println!("{:?}, cela fait {} données", network_predictions_concat, network_predictions_concat.len());
+
+    //for i in 0..net.network_struct.len() - 1 {
+    
+    let mut number_neurons: usize = 0;
+    for i in 0..weights.len() {
+        // for every layer but the first one
+        // or
+        // for every layers of weights
+        number_neurons += net.network_struct[i + 1];
+    }
+    println!("\n\nThe number of neurons in this network is {}", number_neurons);
+
+    
+    for i in 0..number_neurons {
+        // for every neurons of the network
+        let mut vec_neuron: Vec<f32> = Vec::new();
+
+        for y in 0..observed_values.len() {
+            // for every propagation
+            vec_neuron.push(network_predictions_concat[i + y * number_neurons]);
+        }
+
+        println!("The neuron number {} have those values as output: {:?}", i + 1, vec_neuron);
+    }
+
+    println!("\n\nA l'envers :");
+    for i in 0..number_neurons {
+        // for every neurons of the network
+        let mut vec_neuron: Vec<f32> = Vec::new();
+
+        for y in 0..observed_values.len() {
+            // for every propagation
+            let test: usize = i + y * number_neurons;
+            let test_reverse: usize = network_predictions_concat.len() - 1 - i - y * number_neurons;
+            //println!("{}, reverse : {}", test, test_reverse);
+
+            vec_neuron.push(network_predictions_concat[test_reverse]);
+        }
+
+        println!("The neuron number {} have those values as output: {:?}", number_neurons - i, vec_neuron);
+    }
+
 }
