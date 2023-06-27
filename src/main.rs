@@ -1,4 +1,5 @@
 mod runst;
+
 //#![allow(dead_code)]
 use std::env;
 //from : https://www.youtube.com/watch?v=GKZoOHXGcLo&t=614s
@@ -37,22 +38,24 @@ fn main() {
 
     ///////////// Network settings ///////////////////
 
-    let net = runst::Network {
-        //network_struct : vec![1, 1, 2, 3, 4, 5, 6],
-        network_struct : vec![1, 1],
+   let net = runst::Network {
+        network_struct : vec![1, 2, 1, 2],
+        //network_struct : vec![1, 1],
         distrib : String::from("he_normal_dis"),
     
         hidden_activ_fun : String::from("none"),
         // useless in a 1-1 neural network because 
         //there is no hidden layers
 
-        out_activ_fun : String::from("none"),
+        out_activ_fun : String::from("softmax"),
     };
 
     ///////////////////// Network initialisation //////////////////////////
     // The structure of the network
 
     let (mut weights, mut bias): (Vec<Vec<f32>>, Vec<Vec<f32>>) = runst::net_init::net_init(&net);
+    
+    println!("Les poids sont : \n {:?} \n Les biais sont \n {:?}", weights, bias);
 
     ////////////////////// PROPAGATION ////////////////////////////////////
     

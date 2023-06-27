@@ -1,4 +1,4 @@
-use crate::runst::DataSet;
+//use crate::runst::DataSet;
 use crate::runst::Network;
 
 //pub fn back_prop(net: &Network, observed_values: &Vec<Vec<f32>>, network_predictions: &Vec<f32>, weights: &Vec<Vec<f32>>, bias: &Vec<Vec<f32>>) -> (Vec<Vec<f32>>, Vec<Vec<f32>>) {
@@ -54,7 +54,7 @@ pub fn back_prop(net: &Network, observed_values: &Vec<Vec<f32>>, network_predict
         counter_layers += net.network_struct[counter_neurons];
     }
     
-    return 0;
+    0
 }
 
 //pub mod grad_descent;

@@ -12,13 +12,9 @@ pub struct DataSet {
     pub observed_values: Vec<Vec<f32>>,
 }
 
-/* 
-pub struct PropagOutputs { 
-    pub sum:
-    pub sum_bias:
-}
-*/
+pub type FunType = Box<dyn Fn(&Vec<f32>)->Vec<f32>>;
 
 pub mod net_init;
 pub mod propagation;
 pub mod back_prop;
+pub mod calculations;
